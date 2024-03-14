@@ -81,6 +81,8 @@ static void PrintDataElements(int *elements, int num_elements)
         else
             printf(",\n");
     }
+
+    printf("\n");
 }
 
 
@@ -183,7 +185,7 @@ static void PrintBitmap(char *bitmap, int num_bitmap_bytes)
     //----------
 
     for (index = 0; index < num_bitmap_bytes; index++) {
-        printf("%02X", bitmap[index]);
+        printf("%02X", (unsigned char)bitmap[index]);
 
         if (index == (num_bitmap_bytes - 1))
             break;
@@ -193,6 +195,8 @@ static void PrintBitmap(char *bitmap, int num_bitmap_bytes)
         else
             printf(",\n");
     }
+
+    printf("\n");
 }
 
 
@@ -354,7 +358,7 @@ int main(int argc, char *argv[])
         Usage();
 
     while ((opt = getopt_long_only( argc, argv, "f:dh",
-                                    long_options, NULL)) != 1) {
+                                    long_options, NULL)) != -1) {
         switch(opt) {
             case 'f':
                 filename = strdup(optarg);

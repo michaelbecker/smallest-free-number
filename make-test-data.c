@@ -17,8 +17,8 @@
 static void Usage(void)
 {
     printf( "make-test-data\n"
-            "   [-f|--file <filename>]\n"
-            "   [-d|--debug]\n"
+            "   [-e|--empty-slot <missing_number>]\n"
+            "   [-m|--max <max number>]\n"
             "   [-h|--help]\n"
             );
 
@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
     int opt;
 
     struct option long_options[] = {
-        {"empty_slot",  required_argument,  0,  'f'},
-        {"max",         required_argument,  0,  'd'},
+        {"empty-slot",  required_argument,  0,  'e'},
+        {"max",         required_argument,  0,  'm'},
         {"help",        no_argument,        0,  'h'},
         {0,             0,                  0,  0}
     };
@@ -50,15 +50,16 @@ int main(int argc, char *argv[])
     if (argc == 1)
         Usage();
 
-    while ((opt = getopt_long_only( argc, argv, "f:dh",
-                                    long_options, NULL)) != 1) {
+    while ((opt = getopt_long_only( argc, argv, "e:m:h",
+                                    long_options, NULL)) != -1) {
         switch(opt) {
-            case 'f':
-                //filename = strdup(optarg);
+            case 'e':
+                empty_slot = atoi(optarg);
                 break;
 
-            case 'd':
-                //Debug = 1;
+            case 'm':
+                max = atoi(optarg);
+                max++;
                 break;
 
             case 'h':
@@ -80,11 +81,6 @@ int main(int argc, char *argv[])
         Usage();
     }
 
-    empty_slot = atoi(argv[1]);
-
-    max = atoi(argv[2]);
-
-    max++;
 
     for (i = 0; i < max; i++) {
         
@@ -101,6 +97,8 @@ int main(int argc, char *argv[])
         else
             printf(",\n");
     }
+
+    printf("\n");
 
     return 0;
 }
