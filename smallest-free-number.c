@@ -207,10 +207,16 @@ static void PrintBitmap(char *bitmap, int num_bitmap_bytes)
  *  Implements the actual algorithm.
  *
  *  [20, 10, 0, 30] => 1
- *  [3, 2, 1, 0] => 4
+ *  [3, 2, 1, 0]    => 4
  *
  *  Algorithm complexity:
- *  2*O(n) + O(m) => Linear complexity (I think..)
+ *  2*O(n) + O(sizeof(int)) => Linear complexity (I think..)
+ *
+ *  Notes:
+ *  This will not work for very large 64bit integers. Because we use a 
+ *  bitmap to mark used, for a 64 bit int this translates into very large
+ *  memory allocations, quite possibly larger than the RAM contained
+ *  on the machine.
  *
  ***************************************************************************/
 static int FindSmallestNotContained(int *starting_element, int num_elements)
@@ -285,7 +291,7 @@ static int FindSmallestNotContained(int *starting_element, int num_elements)
     /*
      *  Now search the bitmap for the first zero bit. That's
      *  the integer we are looking for.
-     *  O(m) - Note, this depends on the max integer value in
+     *  O(sizeof(int)) - Note, this depends on the max integer value in
      *  the data sent in, not directly on the list length.
      */
     value = max + 1;
